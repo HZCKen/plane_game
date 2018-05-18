@@ -1,6 +1,8 @@
-import sys
 import pygame
+import time
 from setting import Setting
+from Ship import Ship
+
 
 
 def run_game():
@@ -8,14 +10,17 @@ def run_game():
     ai_setting = Setting()
     screen = pygame.display.set_mode((ai_setting.screen_width, ai_setting.screen_height), 0, 0)
     pygame.display.set_caption("AlienInvasion")
+    ai_ship = Ship(screen)
+
     while True:
-        pygame.display.flip()
+        pygame.display.update()
         screen.fill(ai_setting.backgrounColor)
-        image = pygame.image.load("images/ship.bmp")
-        screen.blit(image, (100, 0))
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                sys.exit()
+        ai_ship.show_ship()
+        ai_ship.move_event()
 
 
-run_game()
+
+
+if __name__ == '__main__':
+
+    run_game()
