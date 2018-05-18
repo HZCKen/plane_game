@@ -4,7 +4,6 @@ from setting import Setting
 from Ship import Ship
 
 
-
 def run_game():
     pygame.init()
     ai_setting = Setting()
@@ -17,10 +16,8 @@ def run_game():
         screen.fill(ai_setting.backgrounColor)
         ai_ship.show_ship()
         ai_ship.move_event()
-
-
+        time.sleep(0.01)
 
 
 if __name__ == '__main__':
-
     run_game()
