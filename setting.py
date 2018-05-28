@@ -2,7 +2,7 @@ class Setting(object):
 
     def __init__(self):
         self.screen_width = 480
-        self.screen_height = 800
+        self.screen_height = 480
         self.backgrounColor = (230, 230, 230)
 
         self.ship_speed_factor = 5
