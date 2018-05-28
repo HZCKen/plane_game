@@ -3,6 +3,7 @@ import pygame
 from bullet import Bullet
 
 
+# 按下
 def check_keydown_events(event, ai_setting, screen, ship, bullet_list):
     if event.key == pygame.K_a or event.key == pygame.K_LEFT:
         ship.is_move_left = True
@@ -18,6 +19,7 @@ def check_keydown_events(event, ai_setting, screen, ship, bullet_list):
         fire_bullet(ai_setting, screen, ship, bullet_list)
 
 
+# 放开
 def check_keyup_events(event, ship):
     if event.key == pygame.K_a or event.key == pygame.K_LEFT:
         ship.is_move_left = False
@@ -29,6 +31,7 @@ def check_keyup_events(event, ship):
         ship.is_move_down = False
 
 
+# 监听事件
 def check_events(ai_setting, screen, ship, bullet_list):
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -39,12 +42,14 @@ def check_events(ai_setting, screen, ship, bullet_list):
             check_keyup_events(event, ship)
 
 
+# 发射子弹
 def fire_bullet(ai_setting, screen, ship, bullet_list):
     new_bullet = Bullet(ai_setting, screen, ship)
     bullet_list.add(new_bullet)
     new_bullet.draw_bullet()
 
 
+# 更新子弹
 def update_bullets(bullet_list):
     bullet_list.update()
     for bullet in bullet_list.copy():
@@ -52,7 +57,8 @@ def update_bullets(bullet_list):
             bullet_list.remove(bullet)
 
 
-def uodate_screen(ai_setting, screen, ship, bullet_list):
+# 更新屏幕
+def update_screen(ai_setting, screen, ship, bullet_list):
     pygame.display.update()
     screen.fill(ai_setting.backgrounColor)
     ship.show_ship()

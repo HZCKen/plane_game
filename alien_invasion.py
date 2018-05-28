@@ -18,10 +18,9 @@ def run_game():
 
         gf.check_events(ai_setting, screen, ai_ship, bullet_list)
         gf.update_bullets(bullet_list)
-        gf.uodate_screen(ai_setting, screen, ai_ship, bullet_list)
+        gf.update_screen(ai_setting, screen, ai_ship, bullet_list)
         time.sleep(0.01)
 
 
 if __name__ == '__main__':
     run_game()
-
