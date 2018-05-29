@@ -1,11 +1,9 @@
-from pygame.sprite import Sprite
 import pygame
 
 
-class Bullet(Sprite):
+class Bullet(object ):
 
     def __init__(self, ai_setting, screen, ship):
-        super(Bullet, self).__init__()
         self.screen = screen
         self.color = ai_setting.bullet_color
 

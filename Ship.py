@@ -18,7 +18,7 @@ class Ship(object):
 
 
     # 显示飞船
-    def show_ship(self):
+    def show(self):
         self.screen.blit(self.icon_imgae, self.rect)
     # 更新飞船位置
     def update(self):
