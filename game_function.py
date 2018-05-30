@@ -46,17 +46,28 @@ def check_events(ai_setting, screen, ship, bullet_list):
 def fire_bullet(ai_setting, screen, ship, bullet_list):
     new_bullet = Bullet(ai_setting, screen, ship)
     if len(bullet_list) < ai_setting.bullets_allowed:
-        bullet_list.append(new_bullet)
+        bullet_list.add(new_bullet)
         new_bullet.draw_bullet()
 
 
 # 更新子弹
-def update_bullets(bullet_list):
-    # bullet_list.update()
+def update_bullets(bullet_list, alien_list, ai_setting, ship, screen):
+    bullet_list.update()
     for bullet in bullet_list.copy():
-        bullet.update()
         if bullet.rect.bottom <= 0:
             bullet_list.remove(bullet)
+
+    check_bullet_alien_collisions(bullet_list, alien_list,  ai_setting, screen, ship)
+
+
+#   判断子弹击中外星人
+def check_bullet_alien_collisions(bullet_list, alien_list, ai_setting, screen, ship):
+    # 返回2组重叠的字典，2个True代表删除碰撞的。
+    collisions = pygame.sprite.groupcollide(bullet_list, alien_list, True, True)
+
+    if len(alien_list) == 0:
+        bullet_list.empty()
+        create_alien_list(ai_setting, screen, ship, alien_list)
 
 
 # 更新屏幕
@@ -88,7 +99,7 @@ def get_number_rows(ai_settings, ship_height, alien_height):
 # 创建外星人
 def create_alien(ai_setting, screen , alien_list, alien_number, row_number):
     alien = Alien(screen, ai_setting)
-    alien_list.append(alien)
+    alien_list.add(alien)
     alien_width = alien.rect.width
     alien.x = alien_width + 2 * alien_width * alien_number
     alien.rect.x = alien.x
@@ -105,3 +116,34 @@ def create_alien_list(ai_setting, screen, ship, alien_list):
     for row_number in range(number_rows):
         for alien_number in range(number_aliens_x):
             create_alien(ai_setting, screen, alien_list, alien_number, row_number)
+
+
+# 边界处理
+def check_fleet_edges(ai_setting, alien_list):
+    for alien in alien_list:
+        # print(alien.check_edges())
+        if alien.check_edges():
+            change_fleet_direction(ai_setting, alien_list)
+            break
+
+
+#  改变方向并下移
+def change_fleet_direction(ai_setting, alien_list):
+    for alien in alien_list:
+        alien.rect.y += ai_setting.flect_drop_speed
+
+    ai_setting.fleet_direction *= -1
+
+# 更新外星人位置
+def update_aliens(ai_setting, alien_list, ship):
+    check_fleet_edges(ai_setting, alien_list)
+    alien_list.update()
+
+    if pygame.sprite.spritecollideany(ship, alien_list):
+        print("hit")
+
+
+
+
+
+
