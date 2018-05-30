@@ -31,6 +31,10 @@ class Ship(object):
         elif self.is_move_down:
             self.__move_down()
 
+    def center_ship(self):
+        self.rect.centerx = self.screen_rect.centerx
+        self.rect.bottom = self.screen_rect.bottom - 10
+
     # 向左
     def __move_left(self):
         if self.rect.left > 0:
@@ -50,3 +54,5 @@ class Ship(object):
     def __move_down(self):
         if self.rect.bottom < self.screen_rect.bottom:
             self.rect.bottom += self.ai_setting.ship_speed_factor
+
+
