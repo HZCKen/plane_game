@@ -34,7 +34,7 @@ def check_keyup_events(event, ship):
 
 
 # 监听事件
-def check_events(ai_setting, screen, ship, bullet_list):
+def check_events(ai_setting, screen, ship, bullet_list, stats, play_button):
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             sys.exit()
@@ -42,6 +42,9 @@ def check_events(ai_setting, screen, ship, bullet_list):
             check_keydown_events(event, ai_setting, screen, ship, bullet_list)
         elif event.type == pygame.KEYUP:
             check_keyup_events(event, ship)
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            mouse_x, mouse_y = pygame.mouse.get_pos()
+            
 
 
 # 发射子弹
@@ -73,18 +76,17 @@ def check_bullet_alien_collisions(bullet_list, alien_list, ai_setting, screen, s
 
 
 # 更新屏幕
-def update_screen(ai_setting, screen, ship, alien_list, bullet_list):
-    pygame.display.update()
+def update_screen(ai_setting, screen, ship, alien_list, bullet_list, stats, play_button):
     screen.fill(ai_setting.backgrounColor)
     ship.show()
     ship.update()
-
     for alien in alien_list:
         alien.show()
-
     for bullet in bullet_list:
         bullet.draw_bullet()
-
+    if not stats.game_active:
+        play_button.draw_button()
+    pygame.display.update()
 
 # 计算一行有多少个外星人
 def get_number_aliens_x(ai_setting, alien_width):
@@ -146,13 +148,18 @@ def update_aliens(ai_setting, alien_list, ship, stats, screen, bullet_list):
 
 
 def ship_hit(ai_setting, stats, screen, ship, alien_list, bullet_list):
-    stats.ship_life -= 1
-
     alien_list.empty()
     bullet_list.empty()
 
     create_alien_list(ai_setting, screen, ship, alien_list)
     ship.center_ship()
 
-    sleep(0.5)
+    if stats.ship_life > 0:
+        stats.ship_life -= 1
+        print(stats.ship_life)
+        sleep(0.5)
+    else:
+        stats.game_active = False
+
+
 
