@@ -44,8 +44,11 @@ def check_events(ai_setting, screen, ship, bullet_list, stats, play_button):
             check_keyup_events(event, ship)
         elif event.type == pygame.MOUSEBUTTONDOWN:
             mouse_x, mouse_y = pygame.mouse.get_pos()
-            
+            check_play_button(stats, play_button, mouse_x, mouse_y)
 
+def check_play_button(stats, play_button, mouse_x, mouse_y):
+    if play_button.rect.collidepoint(mouse_x, mouse_y):
+        stats.game_active = True;
 
 # 发射子弹
 def fire_bullet(ai_setting, screen, ship, bullet_list):
